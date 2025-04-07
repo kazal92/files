@@ -25,16 +25,15 @@ google_driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().ins
 
 
 # 검색할 쿼리 입력 (라인별로 실행)
-query = """
+query = """ 
 intitle:index.of
 filetype:sql | filetype:dbf | filetype:mdb | filetype:log | filetype:bkf | filetype:bkp | filetype:bak | filetype:old | filetype:backup
-inurl:login OR inurl:admin OR inurl:user OR inurl:cpanel OR inurl:account OR inurl:moderator OR inurl:/cp OR inurl:Backoffice OR inurl:webmanage OR inurl:site_control OR inurl:manage OR inurl:wp-login OR inurl:rhksflwk OR inurl:shadow_admin OR inurl:adm OR inurl:djemals
+inurl:login OR password OR inurl:admin OR inurl:user OR inurl:cpanel OR inurl:account OR inurl:moderator OR inurl:/cp OR inurl:Backoffice OR inurl:webmanage OR inurl:site_control OR inurl:manage OR inurl:wp-login OR inurl:rhksflwk OR inurl:shadow_admin OR inurl:adm OR inurl:djemals
 intext:"sql syntax near" | intext:"syntax error has occurred" | intext:"incorrect syntax near" | intext:"unexpected end of SQL command" | intext:"Warning: mysql_connect()" | intext:"Warning: mysql_query()" | intext:"Warning: pg_connect()" | intext:"Warning: mysql_num_rows()"  | intext:"Warning: filesize()"
 numrange:500101-991231
 intext:"010" | "011" | "017" | "019"
 intext:@lgcarepartner.com | intext:@efusioni.com | intext:@ccbkpartner.co.kr | intext:@claster.co.kr | intext:@thefaceshop.com | intext:@lghnh.com | intext:@htb.co.kr | intext:@cnpcosmetics.com | intext:@ccbk.co.kr | intext:@htbpartner.co.kr | intext:@tfspartner.com | intext:@ultion.co.kr | intext:@nexlink.co.kr | intext:@lgcns.com | intext:@cnpcosmetics.com | intext:@jiran.com | intext:@behaveglobal.com | intext:@hankooktech.com | intext:@saehimit.com | intext:@outlook.com | intext:@outlook.kr | intext:@daum.net | intext:@gmail.com | intext:@hanmail.net | intext:@hotmail.com | intext:@naver.com | intext:@nate.com | intext:@yahoo.com | intext:@yahoo.co.kr
-filetype:pdf | filetype:pptx | filetype:txt | filetype:back | filetype:hwp | filetype:docx | filetype:doc | filetype:xlsx | filetype:xls | filetype:xml | filetype:csv
-"""
+filetype:pdf | filetype:pptx | filetype:txt | filetype:back | filetype:hwp | filetype:docx | filetype:doc | filetype:xlsx | filetype:xls | filetype:xml | filetype:csv"""
 
 try:
     query_list = query.split('\n')
@@ -66,7 +65,8 @@ try:
 
     elif test == 'm':
         current_index = 0
-        google_url = f"https://www.google.com/search?q=site:naver.com" # 캡챠 띄워서 풀고 난 다음 실행
+        google_url = f"https://www.google.com/search?q=site:naver.com" # 캡챠 풀어놓기 용도
+        google_driver.execute_script(f"window.open('{google_url}');")
 
         while True:
             num = int(input("연속해서 실행할 URL 개수를 입력하세요 : "))
@@ -74,7 +74,7 @@ try:
             for url in urls[current_index:end_index]:
                 print(f"load URL : {url}")
                 for query in query_list:
-                    if query != (''):
+                    if query != (''):                    
                         google_url_detail = f"https://www.google.com/search?q=site:{url} {query}"
                         google_driver.execute_script(f"window.open('{google_url_detail}');")
 
